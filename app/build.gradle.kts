@@ -64,5 +64,6 @@ dependencies {
     ksp(libs.androidx.hilt.compiler)
 
     implementation(project(":core:eventbus"))
+    implementation(project(":core:handlers"))
     implementation(project(":core:navigation"))
 }

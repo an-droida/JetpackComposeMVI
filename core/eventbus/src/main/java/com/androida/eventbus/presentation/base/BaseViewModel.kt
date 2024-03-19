@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.androida.eventbus.utils.Event
 import com.androida.eventbus.utils.IEventBus
+import com.androida.handlers.SideEffectHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,38 +14,40 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class BaseViewModel<ViewAction : BaseEvent<ViewState>, ViewState> : ViewModel() {
+abstract class BaseViewModel<ViewEvent : BaseEvent<ViewState>, ViewState> : ViewModel() {
 
     protected abstract val _viewState: MutableStateFlow<ViewState>
     val viewState by lazy { _viewState.asStateFlow() }
 
-    private val actionSubject: MutableSharedFlow<ViewAction> = MutableSharedFlow()
+    private val eventSubject: MutableSharedFlow<ViewEvent> = MutableSharedFlow()
 
+    @Inject
+    lateinit var sideEffectHandler: SideEffectHandler
 
     @Inject
     open lateinit var eventBus: IEventBus
 
     init {
-        actionSubject
-            .onEach(::processAction)
+        eventSubject
+            .onEach(::processEvent)
             .launchIn(viewModelScope)
     }
 
     @CallSuper
-    protected open fun onActionReceived(viewAction: ViewAction) {
-        if (viewAction is Event) {
-            eventBus.produceEvent(viewAction)
+    protected open fun onEventReceived(viewEvent: ViewEvent) {
+        if (viewEvent is Event) {
+            eventBus.produceEvent(viewEvent)
         }
     }
 
-    private fun processAction(viewAction: ViewAction) {
-        onActionReceived(viewAction)
+    private fun processEvent(viewEvent: ViewEvent) {
+        onEventReceived(viewEvent)
     }
 
-    fun postAction(action: ViewAction) {
+    fun postEvent(event: ViewEvent) {
         viewModelScope.launch {
-            action.updateData(_viewState)
-            actionSubject.emit(action)
+            event.updateData(_viewState)
+            eventSubject.emit(event)
         }
     }
 }

@@ -46,4 +46,5 @@ dependencies {
     ksp(libs.hilt.compiler)
     ksp(libs.androidx.hilt.compiler)
 
+    implementation(project(":core:handlers"))
 }
