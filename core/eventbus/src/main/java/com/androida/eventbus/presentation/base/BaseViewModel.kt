@@ -3,9 +3,9 @@ package com.androida.eventbus.presentation.base
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.androida.eventbus.handlers.SideEffectHandler
 import com.androida.eventbus.utils.Event
 import com.androida.eventbus.utils.IEventBus
-import com.androida.handlers.SideEffectHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,9 +34,9 @@ abstract class BaseViewModel<ViewEvent : BaseEvent<ViewState>, ViewState> : View
     }
 
     @CallSuper
-    protected open fun onEventReceived(viewEvent: ViewEvent) {
-        if (viewEvent is Event) {
-            eventBus.produceEvent(viewEvent)
+    protected open fun onEventReceived(event: ViewEvent) {
+        if (event is Event) {
+            eventBus.produceEvent(event)
         }
     }
 

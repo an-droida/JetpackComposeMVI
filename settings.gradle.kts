@@ -23,7 +23,6 @@ rootProject.name = "DemoApp"
 include(":app")
 include(":core:navigation")
 include(":core:eventbus")
-include(":core:handlers")
 include(":feature")
 include(":feature:auth")
 include(":feature:home")

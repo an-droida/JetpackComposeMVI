@@ -1,9 +1,9 @@
-package com.androida.handlers
+package com.androida.eventbus.handlers
 
+import com.androida.eventbus.handlers.ext.log
+import com.androida.eventbus.handlers.ext.logMessage
 import com.androida.eventbus.utils.Event
 import com.androida.eventbus.utils.IEventBus
-import com.androida.handlers.ext.log
-import com.androida.handlers.ext.logMessage
 import dagger.Lazy
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SideEffectHandler @Inject constructor() {
 
     @Inject
-    lateinit var eventBus: Lazy<IEventBus>
+    lateinit var eventBus: IEventBus
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         exception.logMessage.log("view model exception")
@@ -82,12 +82,12 @@ class SideEffectHandler @Inject constructor() {
     }
 
     private fun executeWarningCommand(errorMsg: String) {
-        eventBus.get().produceEvent(Event.ShowWarning(message = errorMsg))
+        eventBus.produceEvent(Event.ShowWarning(message = errorMsg))
     }
 
 
     private fun executeLoaderEvent(show: Boolean) = CoroutineScope(Dispatchers.Main).launch {
-        eventBus.get().produceEvent(Event.ShowLoader(show = show))
+        eventBus.produceEvent(Event.ShowLoader(show = show))
     }
 
     private fun Throwable.toErrorMsg(): String {

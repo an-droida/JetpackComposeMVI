@@ -56,14 +56,14 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material3.android)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
     ksp(libs.hilt.compiler)
     ksp(libs.androidx.hilt.compiler)
 
+    implementation(project(":feature:home"))
     implementation(project(":core:eventbus"))
-    implementation(project(":core:handlers"))
     implementation(project(":core:navigation"))
 }

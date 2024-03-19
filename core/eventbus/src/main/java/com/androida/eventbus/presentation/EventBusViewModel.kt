@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EventBusViewModel @Inject constructor(
-    val eventBus: IEventBus
+    eventBus: IEventBus
 ) : ViewModel() {
 
     private val _events = MutableStateFlow(EventsViewState())

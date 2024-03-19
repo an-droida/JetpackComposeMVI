@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import com.androida.demoapp.ui.theme.DemoAppTheme
 import com.androida.eventbus.presentation.EventBusViewModel
 import com.androida.eventbus.utils.EventsViewState
+import com.androida.home.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,9 +22,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val events = eventBusViewModel.events.collectAsState()
             DemoAppTheme {
+                val events = eventBusViewModel.events.collectAsState()
                 AppEventsHandler(events.value)
+                HomeScreen()
             }
         }
     }
@@ -34,20 +36,13 @@ class MainActivity : ComponentActivity() {
 private fun AppEventsHandler(
     events: EventsViewState
 ) {
-    events.navigationEvent.peekValue {
-
-    }
-    events.showLoader.peekValue {
-
-    }
-    events.showWarning.peekValue {
-
-    }
-}
-
-@Composable
-fun GreetingPreview() {
-    DemoAppTheme {
-
-    }
+//    events.navigationEvent.peekValue {
+//        Log.d("aaaa","bbbb")
+//    }
+//    events.showLoader.peekValue {
+//
+//    }
+//    events.showWarning.peekValue {
+//
+//    }
 }

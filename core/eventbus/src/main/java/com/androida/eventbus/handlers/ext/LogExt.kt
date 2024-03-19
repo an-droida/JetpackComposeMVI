@@ -1,4 +1,4 @@
-package com.androida.handlers.ext
+package com.androida.eventbus.handlers.ext
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

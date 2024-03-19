@@ -1,4 +1,4 @@
-package com.androida.handlers
+package com.androida.eventbus.handlers
 
 sealed class ApiResult<T>
 data class Success<T>(val value: T) : ApiResult<T>()
